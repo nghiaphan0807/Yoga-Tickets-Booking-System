@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Yoga-Ticket" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="02cadbe7-63d9-4143-a968-a24cf025c00d">
+	<property name="ireport.zoom" value="1.610510000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="58" height="20" uuid="ab84f08c-66fb-4f49-ae66-062d6c5c8755"/>
+				<textFieldExpression><![CDATA[$F{STUDIONAME}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="58" y="0" width="37" height="20" uuid="a5270a64-8dcb-4214-92fa-72073a6d9939"/>
+				<text><![CDATA[Date:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="95" y="0" width="100" height="20" uuid="044f4d81-51d1-4b50-9223-8d9def5d07e3"/>
+				<textFieldExpression><![CDATA[$F{DATE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="58" y="20" width="37" height="20" uuid="a99abdae-e198-4bdf-8521-90637cd9f060"/>
+				<text><![CDATA[Time:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="58" y="40" width="37" height="20" uuid="ffc04b01-ffec-40db-bd7e-e76c04f6f87a"/>
+				<text><![CDATA[Class:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="58" y="60" width="37" height="20" uuid="5ef26575-10fa-4ac8-99cf-183f9ccb289b"/>
+				<text><![CDATA[No:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="95" y="20" width="100" height="20" uuid="167807a3-d575-43b1-bb9d-7506d81254ad"/>
+				<textFieldExpression><![CDATA[$F{TIME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="95" y="40" width="100" height="20" uuid="c811d0b3-d9c7-46dd-9979-77b6943b7ae5"/>
+				<textFieldExpression><![CDATA[$F{CLASS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="95" y="60" width="100" height="20" uuid="6ad052b8-59ef-4104-81a0-b1349f7a281c"/>
+				<textFieldExpression><![CDATA[$F{MAT_NUMBER}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="20" width="58" height="60" uuid="b97a1f4b-a380-4758-8fb2-8d9fdede663b"/>
+			</image>
+		</band>
+	</detail>
+</jasperReport>

@@ -26,7 +26,18 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JasperDesignFactory;
+import net.sf.jasperreports.engine.xml.JasperPrintFactory;
+import net.sf.jasperreports.repo.JasperDesignCache;
+import net.sf.jasperreports.repo.JasperDesignReportResource;
 
 import constant.Constant;
 import utiliti.Utilities;
@@ -274,6 +285,13 @@ public class BookingView extends JFrame {
 
 	private void printReport(MouseEvent e) {
 		((JLabel)e.getSource()).setBackground(Constant.DIAMOND);
+		
+		try {
+			JasperReport report = JasperCompileManager.compileReport("report/Yoga-Ticket.jrxml");
+//			JasperPrintManager.print
+		} catch (JRException e1) {
+			
+		}
 	}
 
 	private void showPleaseEnterDialog() {
