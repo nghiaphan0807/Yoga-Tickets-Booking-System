@@ -26,6 +26,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import net.sf.jasperreports.engine.JasperCompileManager;
+
 import constant.Constant;
 import utiliti.Utilities;
 
@@ -69,6 +71,8 @@ public class BookingView extends JFrame {
 	JLabel lblLastComponent = new JLabel();
 	JDialog dlgAlreadyBooked;
 	JDialog dlgPleaseEnterInput;
+	JDialog dlgRemoveMat;
+	JDialog dlgRemoveAllMats;
 
 	/**
 	 * 
@@ -172,14 +176,65 @@ public class BookingView extends JFrame {
 	}
 
 	protected void chooseMats(MouseEvent e) {
-		if(((JLabel) e.getSource()).getBackground() == Color.YELLOW
-				|| ((JLabel) e.getSource()).getBackground() == Color.GRAY) {
+		JLabel lblSelectedMat = (JLabel) e.getSource();
+		
+		if((lblSelectedMat.getBackground() == Constant.CENTURYON
+				|| (lblSelectedMat.getBackground() == Constant.DIAMOND))
+					&& getCursor().equals(Cursor.getPredefinedCursor(HAND_CURSOR))) {
+			showRemoveMatDialog(lblSelectedMat);
+		} else if(lblSelectedMat.getBackground() == Constant.CENTURYON
+				|| (lblSelectedMat.getBackground() == Constant.DIAMOND)) {
 			showAlreadyBookedDialog();
-		} else if(((JLabel) e.getSource()).getBackground() == Color.WHITE) {
+		} else if(lblSelectedMat.getBackground() == Constant.NORMAL) {
 			showPrintDialog(e);
 		}
 	}
 	
+	private void showRemoveMatDialog(final JLabel removingMat) {
+		dlgRemoveMat = new JDialog(this, "Remove mat", true);
+		dlgRemoveMat.setSize(280, 170);
+		dlgRemoveMat.setLocationRelativeTo(this);		
+		dlgRemoveMat.setLayout(new GridBagLayout());
+		
+		JLabel lblExistingMessage = new JLabel("Do you really want to remove this mat?");
+		lblExistingMessage.setHorizontalAlignment(JLabel.CENTER);
+		Utilities.setCompoenentSize(lblExistingMessage, 250, 25);
+		dlgRemoveMat.add(lblExistingMessage, new GridBagConstraints(0, 0, 2, 1, 
+				0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 
+				new Insets(0, 0, 20, 0), 0, 0));		
+		
+		JButton btnOK = new JButton("OK");
+//		btnOK.setFocusPainted(false);
+		Utilities.setCompoenentSize(btnOK, 80, 25);
+		dlgRemoveMat.add(btnOK, new GridBagConstraints(0, 1, 1, 1, 
+				0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, 
+				new Insets(0, 35, 0, 0), 0, 0));
+		
+		btnOK.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dlgRemoveMat.dispose();
+				removingMat.setBackground(Constant.NORMAL);
+				setCursor(Cursor.DEFAULT_CURSOR);
+			}
+		});
+		
+		JButton btnCancel = new JButton("Cancel");
+//		btnCancel.setFocusPainted(false);
+		Utilities.setCompoenentSize(btnCancel, 80, 25);
+		dlgRemoveMat.add(btnCancel, new GridBagConstraints(1, 1, 1, 1, 
+				0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, 
+				new Insets(0, 0, 0, 0), 0, 0));
+		btnCancel.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dlgRemoveMat.dispose();
+			}
+		});
+		
+		dlgRemoveMat.setVisible(true);
+	}
+
 	private void showAlreadyBookedDialog() {
 		dlgAlreadyBooked = new JDialog(this, "Existing Mat", true);
 		dlgAlreadyBooked.setSize(280, 170);
@@ -214,11 +269,11 @@ public class BookingView extends JFrame {
 		if(isMissingInput)
 			showPleaseEnterDialog();
 		else
-			print(e);
+			printReport(e);
 	}
 
-	private void print(MouseEvent e) {
-		((JLabel)e.getSource()).setBackground(Color.RED);
+	private void printReport(MouseEvent e) {
+		((JLabel)e.getSource()).setBackground(Constant.DIAMOND);
 	}
 
 	private void showPleaseEnterDialog() {
@@ -417,7 +472,76 @@ public class BookingView extends JFrame {
 		addActionListenerForBtnStudio2();
 		addActionListenerForBtnStudio3();
 		addActionListenerForBtnClear();
+		addActionListenerForBtnReset();
 		addMouseListenerForMainFrame();
+	}
+
+	private void addActionListenerForBtnReset() {
+		btnReset.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				showRemoveAllMats();
+				removeAllMats();				
+			}
+		});
+	}
+
+	protected void showRemoveAllMats() {
+		dlgRemoveAllMats = new JDialog(this, "Remove all mats", true);
+		dlgRemoveAllMats.setSize(280, 170);
+		dlgRemoveAllMats.setLocationRelativeTo(this);		
+		dlgRemoveAllMats.setLayout(new GridBagLayout());
+		
+		JLabel lblExistingMessage = new JLabel("Do you really want to remove all mats?");
+		lblExistingMessage.setHorizontalAlignment(JLabel.CENTER);
+		Utilities.setCompoenentSize(lblExistingMessage, 250, 25);
+		dlgRemoveAllMats.add(lblExistingMessage, new GridBagConstraints(0, 0, 2, 1, 
+				0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 
+				new Insets(0, 0, 20, 0), 0, 0));		
+		
+		JButton btnOK = new JButton("OK");
+//		btnOK.setFocusPainted(false);
+		Utilities.setCompoenentSize(btnOK, 80, 25);
+		dlgRemoveAllMats.add(btnOK, new GridBagConstraints(0, 1, 1, 1, 
+				0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, 
+				new Insets(0, 35, 0, 0), 0, 0));
+		
+		btnOK.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dlgRemoveAllMats.dispose();
+				removeAllMats();
+			}
+		});
+		
+		JButton btnCancel = new JButton("Cancel");
+//		btnCancel.setFocusPainted(false);
+		Utilities.setCompoenentSize(btnCancel, 80, 25);
+		dlgRemoveAllMats.add(btnCancel, new GridBagConstraints(1, 1, 1, 1, 
+				0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, 
+				new Insets(0, 0, 0, 0), 0, 0));
+		btnCancel.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dlgRemoveAllMats.dispose();
+			}
+		});
+		
+		dlgRemoveAllMats.setVisible(true);	
+	}
+
+	protected void removeAllMats() {
+		String studioName = lblStudioName.getText().toLowerCase();
+		if("yoga studio 1".equals(studioName)) {
+			for(int i = 0; i < lblMatsForStudio1.length; i++)
+				lblMatsForStudio1[i].setBackground(Constant.NORMAL);
+		} else if("yoga studio 2".equals(studioName)) {
+			for(int i = 0; i < lblMatsForStudio2.length; i++)
+				lblMatsForStudio2[i].setBackground(Constant.NORMAL);
+		} else if("yoga studio 3".equals(studioName)) {
+			for(int i = 0; i < lblMatsForStudio3.length; i++)
+				lblMatsForStudio3[i].setBackground(Constant.NORMAL);
+		}
 	}
 
 	private void addMouseListenerForMainFrame() {
