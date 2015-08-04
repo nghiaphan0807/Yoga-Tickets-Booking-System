@@ -13,6 +13,10 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -33,14 +37,9 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.xml.JasperDesignFactory;
 import net.sf.jasperreports.engine.xml.JasperPrintFactory;
-import net.sf.jasperreports.repo.JasperDesignCache;
-import net.sf.jasperreports.repo.JasperDesignReportResource;
-
-import constant.Constant;
 import utiliti.Utilities;
+import constant.Constant;
 
 public class BookingView extends JFrame {
 	
@@ -286,11 +285,25 @@ public class BookingView extends JFrame {
 	private void printReport(MouseEvent e) {
 		((JLabel)e.getSource()).setBackground(Constant.DIAMOND);
 		
-		try {
-			JasperReport report = JasperCompileManager.compileReport("report/Yoga-Ticket.jrxml");
-//			JasperPrintManager.print
+		try {			
+//			JasperReport report = JasperCompileManager.compileReport(
+//					"G://Work/Java/workspace/Yoga-Tickets-Booking-System/report/Yoga-Ticket.jasper");
+			// Second, create a map of parameters to pass to the report.
+			Map parameters = new HashMap();
+			parameters.put("STUDIO_NAME", "DDDD");
+			parameters.put("DATE", "AAAA");
+			parameters.put("TIME", "AAAA");
+			parameters.put("CLASS", "AAAA");
+			parameters.put("MAT_NUMBER", "AAAA");
+			// Third, get a database connection
+//			Connection conn = data
+			// Fourth, create JasperPrint using fillReport() method
+			JasperPrint jasperPrint = JasperFillManager.fillReport(
+					"G://Work/Java/workspace/Yoga-Tickets-Booking-System/report/Yoga-Ticket.jasper",
+					parameters);
+			JasperPrintManager.printReport(jasperPrint, true);
 		} catch (JRException e1) {
-			
+			System.out.println(e1);
 		}
 	}
 
