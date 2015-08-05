@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.xml.JasperPrintFactory;
+import net.sf.jasperreports.view.JasperViewer;
 import utiliti.Utilities;
 import constant.Constant;
 
@@ -298,10 +299,14 @@ public class BookingView extends JFrame {
 			// Third, get a database connection
 //			Connection conn = data
 			// Fourth, create JasperPrint using fillReport() method
+			
+//			E:\Java\myworkspace\Yoga-Tickets-Booking-System\report\Yoga-Ticket.jasper
+//			G://Work/Java/workspace/Yoga-Tickets-Booking-System/report/Yoga-Ticket.jasper"
+				
 			JasperPrint jasperPrint = JasperFillManager.fillReport(
-					"G://Work/Java/workspace/Yoga-Tickets-Booking-System/report/Yoga-Ticket.jasper",
+					"E://Java/myworkspace/Yoga-Tickets-Booking-System/report/Yoga-Ticket.jasper",
 					parameters);
-			JasperPrintManager.printReport(jasperPrint, true);
+			JasperViewer.viewReport(jasperPrint);
 		} catch (JRException e1) {
 			System.out.println(e1);
 		}
